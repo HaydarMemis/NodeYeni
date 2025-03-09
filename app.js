@@ -4,41 +4,45 @@
 var http = require('http');
 var fs = require('fs');
 
-var server = http.createServer(function(reg,res){
+var homeController = (function(req, res){
+  fs.readFile('index.html',function(err,data){
 
 
-  if(reg.url == '/'){
-    fs.readFile('index.html',function(err,data){
+    res.write(data);
+
+    res.end('mesaj bitti');
 
 
-      res.write(data);
-  
-      res.end('mesaj bitti');
-  
-  
-    });
+  });
+});
+
+var loginController =(function(req, res){
+  fs.readFile('login.html',function(err,data){
+
+
+    res.write(data);
+
+    res.write('deneme');
+
+    res.end('mesaj bitti');
+
+
+  });
+});
+
+var server = http.createServer(function(req,res){
+
+
+  if(req.url == '/'){
+    homeController(req,res);
   }
   
-  if(reg.url == '/login'){
-    fs.readFile('login.html',function(err,data){
-
-
-      res.write(data);
-
-      res.write('deneme');
-  
-      res.end('mesaj bitti');
-  
-  
-    });
+  if(req.url == '/login'){
+    loginController(req, res);
   }
 
 
-  console.log(reg.url);
-
- 
-
-  
+  console.log(req.url);
 
 });
 
