@@ -1,12 +1,13 @@
 //
 
 
-var http = require('http');
 var fs = require('fs');
+var express = require('express');
 
-var homeController = (function(req, res){
-  fs.readFile('index.html',function(err,data){
+var app = express();
 
+app.get('/', function(req,res){
+  fs.readFile('index.html', function (err, data) {
 
     res.write(data);
 
@@ -16,13 +17,10 @@ var homeController = (function(req, res){
   });
 });
 
-var loginController =(function(req, res){
-  fs.readFile('login.html',function(err,data){
-
+app.get('/login', function(req,res){
+  fs.readFile('login.html', function (err, data) {
 
     res.write(data);
-
-    res.write('deneme');
 
     res.end('mesaj bitti');
 
@@ -30,20 +28,4 @@ var loginController =(function(req, res){
   });
 });
 
-var server = http.createServer(function(req,res){
-
-
-  if(req.url == '/'){
-    homeController(req,res);
-  }
-  
-  if(req.url == '/login'){
-    loginController(req, res);
-  }
-
-
-  console.log(req.url);
-
-});
-
-server.listen(8000);
+app.listen(8000);
